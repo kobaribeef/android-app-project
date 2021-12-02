@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PersonDetailsActivity"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/lblName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name" />
+
+    <EditText
+        android:id="@+id/txtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/lblDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description" />
+
+    <EditText
+        android:id="@+id/txtDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/lblRaceDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Race Description" />
+
+    <EditText
+        android:id="@+id/txtRaceDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:text="" />
+
+    <CheckBox
+        android:id="@+id/chkDone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Have we met" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <!--
+        I read that if you use layout_weight for an element,
+        then you should set it's width to 0dp
+        -->
+        <EditText
+            android:id="@+id/txtSelectedDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:ems="10"
+            android:text=""
+            android:layout_weight="6"/>
+        <!--
+        A video on using image assets in Android
+        https://www.youtube.com/watch?v=YaWmNhlOXYk
+        -->
+        <Button
+            android:id="@+id/btnPickDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_weight="1"
+            android:background="@drawable/ic_calendar"/>
+    </LinearLayout>
+
+</LinearLayout>

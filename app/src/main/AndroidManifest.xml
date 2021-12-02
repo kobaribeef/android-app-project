@@ -10,6 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KobariFinalProject">
         <activity
+            android:name=".RaceDetailsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PersonDetailsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PersonListActivity"
+            android:exported="true" />
+        <activity
+            android:name=".RaceListActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
