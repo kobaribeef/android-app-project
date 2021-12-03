@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "618864766382",
+    "project_id": "android-final-project-5ea22",
+    "storage_bucket": "android-final-project-5ea22.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618864766382:android:22cd4ca0a2fb047702ec3f",
+        "android_client_info": {
+          "package_name": "com.example.kobarifinalproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618864766382-qq7bs0egqntsm0scpufacu8u3kso8jff.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGOSA9Z6NC1mLunzOFW85xe5qL_r7Kxqg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618864766382-qq7bs0egqntsm0scpufacu8u3kso8jff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
