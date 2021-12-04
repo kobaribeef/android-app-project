@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/lblPerson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/chkMetList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Met" />
+
+        <Button
+            android:id="@+id/btnUpdatePerson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:text="Update" />
+
+        <Button
+            android:id="@+id/btnDeletePerson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:text="Delete" />
+
+    </LinearLayout>
+
+</LinearLayout>
