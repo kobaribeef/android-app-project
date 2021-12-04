@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class PersonDataAccess {
@@ -52,6 +54,64 @@ public class PersonDataAccess {
         });
     }
 
+    public void getPersonById(String personId, FirebaseListener listener){
+        peopleCollection.document(personId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot p) {
+                Person person = convertDocumentToPerson(p);
+                listener.done(person);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "UNABLE TO GET PERSON BY ID" + e.toString());
+            }
+        });
+    }
+
+    public void addPerson(Person newPerson, FirebaseListener listener){
+        peopleCollection.add(convertPersonToMap(newPerson)).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                newPerson.setId(documentReference.getId());
+                listener.done(newPerson);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "UNABLE TO ADD PERSON" + e.toString());
+            }
+        });
+    }
+
+    public void updatePerson(Person updatedPerson, FirebaseListener listener){
+        peopleCollection.document(updatedPerson.getId()).set(convertPersonToMap(updatedPerson)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                listener.done(updatedPerson);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "UNABLE TO UPDATE PERSON" + e.toString());
+            }
+        });
+    }
+
+    public void deletePerson(String personId, FirebaseListener listener){
+        peopleCollection.document(personId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                listener.done(null);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "UNABLE TO DELETE DOG" + e.toString());
+            }
+        });
+    }
+
     private Person convertDocumentToPerson(DocumentSnapshot doc){
         String personId = doc.getId();
         try{
@@ -66,5 +126,14 @@ public class PersonDataAccess {
             Log.d(TAG, "UNABLE TO CONVERT DOCUMENT TO DOG" + e.toString());
             return null;
         }
+    }
+
+    private HashMap<String, Object> convertPersonToMap(Person person){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name", person.getName());
+        map.put("description", person.getDescription());
+        map.put("firstMet", person.getFirstMet());
+        map.put("met", person.isMet());
+        return map;
     }
 }
