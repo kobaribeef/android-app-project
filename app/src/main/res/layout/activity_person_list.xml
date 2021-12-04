@@ -7,12 +7,43 @@
     tools:context=".PersonListActivity"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/btnGetAllPeople"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get All People" />
+
+    <EditText
+        android:id="@+id/txtPersonId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Enter Person Id" />
+
+    <Button
+        android:id="@+id/btnGetPersonById"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get Person By ID" />
 
     <Button
         android:id="@+id/btnAddPerson"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add Person" />
+
+    <Button
+        android:id="@+id/btnUpdatePerson"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Person" />
+
+    <Button
+        android:id="@+id/btnDeletePerson"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete Person" />
 
     <ListView
         android:id="@+id/lsPeople"
