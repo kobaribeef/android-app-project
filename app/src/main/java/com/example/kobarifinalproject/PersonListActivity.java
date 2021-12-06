@@ -44,6 +44,12 @@ public class PersonListActivity extends AppCompatActivity {
 
         da = new PersonDataAccess();
         lsPeople = findViewById(R.id.lsPeople);
+        allPeople = da.getAllPeople(new FirebaseListener() {
+            @Override
+            public void done(Object obj) {
+                allPeople = (ArrayList<Person>) obj;
+            }
+        });
 
         ArrayAdapter<Person> adapter = new ArrayAdapter<Person>(this, R.layout.custom_item_list, R.id.lblPerson, allPeople){
             @Override
