@@ -15,7 +15,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -98,8 +97,8 @@ public class PersonDataAccess {
         });
     }
 
-    public void deletePerson(String personId, FirebaseListener listener){
-        peopleCollection.document(personId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+    public void deletePerson(Person deletedPerson, FirebaseListener listener){
+        peopleCollection.document(deletedPerson.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 listener.done(null);
