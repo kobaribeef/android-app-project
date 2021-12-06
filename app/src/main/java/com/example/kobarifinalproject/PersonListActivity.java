@@ -44,56 +44,7 @@ public class PersonListActivity extends AppCompatActivity {
 
         da = new PersonDataAccess();
         lsPeople = findViewById(R.id.lsPeople);
-    }
 
-    private void getAllPeople(){
-        btnGetAllPeople = findViewById(R.id.btnGetAllPeople);
-        btnGetAllPeople.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                da.getAllPeople(new FirebaseListener() {
-                    @Override
-                    public void done(Object obj) {
-                        ArrayList<Person> people = (ArrayList<Person>) obj;
-                        for( Person p : people){
-                            Log.d(TAG, p.toString());
-                        }
-                    }
-                });
-            }
-        });
-    }
-
-    private void getPersonById(){
-        txtPersonId = findViewById(R.id.txtPersonId);
-        btnGetPersonById = findViewById(R.id.btnGetPersonById);
-        btnGetPersonById.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String personId = txtPersonId.getText().toString();
-                da.getPersonById(personId, new FirebaseListener() {
-                    @Override
-                    public void done(Object obj) {
-                        Person p = (Person) obj;
-                        Log.d(TAG, p.toString());
-                    }
-                });
-            }
-        });
-    }
-
-    private void addPerson(){
-        btnAddPerson = findViewById(R.id.btnAddPerson);
-        btnAddPerson.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(PersonListActivity.this, PersonDetailsActivity.class);
-                startActivity(i);
-            }
-        });
-    }
-
-    private void setUpList(){
         ArrayAdapter<Person> adapter = new ArrayAdapter<Person>(this, R.layout.custom_item_list, R.id.lblPerson, allPeople){
             @Override
             public View getView(int position, View convertView, ViewGroup parentListView){
@@ -167,5 +118,56 @@ public class PersonListActivity extends AppCompatActivity {
         };
 
         lsPeople.setAdapter(adapter);
+    }
+
+    private void getAllPeople(){
+        btnGetAllPeople = findViewById(R.id.btnGetAllPeople);
+        btnGetAllPeople.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                da.getAllPeople(new FirebaseListener() {
+                    @Override
+                    public void done(Object obj) {
+                        ArrayList<Person> people = (ArrayList<Person>) obj;
+                        for( Person p : people){
+                            Log.d(TAG, p.toString());
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void getPersonById(){
+        txtPersonId = findViewById(R.id.txtPersonId);
+        btnGetPersonById = findViewById(R.id.btnGetPersonById);
+        btnGetPersonById.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String personId = txtPersonId.getText().toString();
+                da.getPersonById(personId, new FirebaseListener() {
+                    @Override
+                    public void done(Object obj) {
+                        Person p = (Person) obj;
+                        Log.d(TAG, p.toString());
+                    }
+                });
+            }
+        });
+    }
+
+    private void addPerson(){
+        btnAddPerson = findViewById(R.id.btnAddPerson);
+        btnAddPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(PersonListActivity.this, PersonDetailsActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+
+    private void setUpList(){
+
     }
 }
