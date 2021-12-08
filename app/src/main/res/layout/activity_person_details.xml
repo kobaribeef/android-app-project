@@ -7,6 +7,16 @@
     tools:context=".PersonDetailsActivity"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/btnSavePerson"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save" />
+    <Button
+        android:id="@+id/btnDeletePersonPDA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete" />
 
     <TextView
         android:id="@+id/lblName"
@@ -54,10 +64,16 @@
         android:text="" />
 
     <CheckBox
-        android:id="@+id/chkDone"
+        android:id="@+id/chkMet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Have we met" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date:" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,7 +84,7 @@
         then you should set it's width to 0dp
         -->
         <EditText
-            android:id="@+id/txtSelectedDate"
+            android:id="@+id/txtFirstMetDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:editable="false"

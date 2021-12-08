@@ -32,8 +32,6 @@ public class PersonListActivity extends AppCompatActivity {
     private EditText txtPersonId;
     private Button btnGetPersonById;
     private Button btnAddPerson;
-    private Button btnUpdatePerson;
-    private Button btnDeletePerson;
     private ArrayList<Person> allPeople;
     private ListView lsPeople;
 
@@ -171,9 +169,5 @@ public class PersonListActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-    }
-
-    private void setUpList(){
-
     }
 }

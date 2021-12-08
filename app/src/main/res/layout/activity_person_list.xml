@@ -33,18 +33,6 @@
         android:layout_height="wrap_content"
         android:text="Add Person" />
 
-    <Button
-        android:id="@+id/btnUpdatePerson"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Update Person" />
-
-    <Button
-        android:id="@+id/btnDeletePerson"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Delete Person" />
-
     <ListView
         android:id="@+id/lsPeople"
         android:layout_width="match_parent"

@@ -7,6 +7,7 @@ public class Person {
     String id;
     String name;
     String description;
+    String raceDescription;
     boolean met;
     Date firstMet;
 
@@ -34,6 +35,10 @@ public class Person {
         this.description = description;
     }
 
+    public String getRaceDescription(){ return raceDescription; }
+
+    public void setRaceDescription(String raceDescription){ this.raceDescription = raceDescription; }
+
     public boolean isMet() {
         return met;
     }
@@ -50,12 +55,17 @@ public class Person {
         this.firstMet = firstMet;
     }
 
-    public Person(String id, String name, String description, boolean met, Date firstMet){
-        this.id = id;
+    public Person(String name, String description, String raceDescription, boolean met, Date firstMet){
         this.name = name;
         this.description = description;
+        this.raceDescription = raceDescription;
         this.met = met;
         this.firstMet = firstMet;
+    }
+
+    public Person(String id, String name, String description, String raceDescription, boolean met, Date firstMet){
+        this(name, description, raceDescription, met, firstMet);
+        this.id = id;
     }
 
     @Override
