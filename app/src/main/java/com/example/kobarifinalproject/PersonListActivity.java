@@ -42,86 +42,87 @@ public class PersonListActivity extends AppCompatActivity {
 
         da = new PersonDataAccess();
         lsPeople = findViewById(R.id.lsPeople);
-        allPeople = da.getAllPeople(new FirebaseListener() {
+        da.getAllPeople(new FirebaseListener() {
             @Override
             public void done(Object obj) {
+
                 allPeople = (ArrayList<Person>) obj;
-            }
-        });
 
-        ArrayAdapter<Person> adapter = new ArrayAdapter<Person>(this, R.layout.custom_item_list, R.id.lblPerson, allPeople){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parentListView){
-                View listItemView = super.getView(position, convertView, parentListView);
-
-                Person currentPerson = allPeople.get(position);
-                TextView lblPerson = listItemView.findViewById(R.id.lblPerson);
-                lblPerson.setText(currentPerson.getDescription());
-                CheckBox chkMet = listItemView.findViewById(R.id.chkMetList);
-                chkMet.setChecked(currentPerson.isMet());
-                Button update = listItemView.findViewById(R.id.btnUpdatePerson);
-                Button delete = listItemView.findViewById(R.id.btnDeletePerson);
-
-                chkMet.setOnClickListener(new View.OnClickListener() {
+                ArrayAdapter<Person> adapter = new ArrayAdapter<Person>(PersonListActivity.this, R.layout.custom_item_list, R.id.lblPerson, allPeople){
                     @Override
-                    public void onClick(View view) {
-                        currentPerson.setMet(chkMet.isChecked());
-                        da.updatePerson(currentPerson, new FirebaseListener() {
+                    public View getView(int position, View convertView, ViewGroup parentListView){
+                        View listItemView = super.getView(position, convertView, parentListView);
+
+                        Person currentPerson = allPeople.get(position);
+                        TextView lblPerson = listItemView.findViewById(R.id.lblPerson);
+                        lblPerson.setText(currentPerson.getDescription());
+                        CheckBox chkMet = listItemView.findViewById(R.id.chkMetList);
+                        chkMet.setChecked(currentPerson.isMet());
+                        Button update = listItemView.findViewById(R.id.btnUpdatePerson);
+                        Button delete = listItemView.findViewById(R.id.btnDeletePerson);
+
+                        chkMet.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void done(Object obj) {
-                                Log.d(TAG, currentPerson.toString());
-                            }
-                        });
-
-                    }
-                });
-
-                update.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Person selectedPerson = allPeople.get(position);
-                        Intent i = new Intent(PersonListActivity.this, PersonDetailsActivity.class);
-                        i.putExtra(PersonDetailsActivity.EXTRA_PERSON_ID, selectedPerson.getId());
-                        startActivity(i);
-                    }
-                });
-
-                delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(PersonListActivity.this);
-                        alert.setTitle("Delete Person");
-                        alert.setMessage("Are you sure you want to delete this person");
-                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int i) {
-                                Person selectedPerson = allPeople.get(position);
-                                da.deletePerson(selectedPerson, new FirebaseListener() {
+                            public void onClick(View view) {
+                                currentPerson.setMet(chkMet.isChecked());
+                                da.updatePerson(currentPerson, new FirebaseListener() {
                                     @Override
                                     public void done(Object obj) {
-
+                                        Log.d(TAG, currentPerson.toString());
                                     }
                                 });
-                                dialog.dismiss();
+
                             }
                         });
 
-                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        update.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int i) {
-                                dialog.dismiss();
+                            public void onClick(View view) {
+                                Person selectedPerson = allPeople.get(position);
+                                Intent i = new Intent(PersonListActivity.this, PersonDetailsActivity.class);
+                                i.putExtra(PersonDetailsActivity.EXTRA_PERSON_ID, selectedPerson.getId());
+                                startActivity(i);
                             }
                         });
 
-                        alert.show();
+                        delete.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                AlertDialog.Builder alert = new AlertDialog.Builder(PersonListActivity.this);
+                                alert.setTitle("Delete Person");
+                                alert.setMessage("Are you sure you want to delete this person");
+                                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int i) {
+                                        Person selectedPerson = allPeople.get(position);
+                                        da.deletePerson(selectedPerson, new FirebaseListener() {
+                                            @Override
+                                            public void done(Object obj) {
+
+                                            }
+                                        });
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int i) {
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                alert.show();
+                            }
+                        });
+
+                        return listItemView;
                     }
-                });
+                };
 
-                return listItemView;
+                lsPeople.setAdapter(adapter);
             }
-        };
-
-        lsPeople.setAdapter(adapter);
+        });
     }
 
     private void getAllPeople(){
