@@ -55,7 +55,7 @@ public class PersonListActivity extends AppCompatActivity {
 
                         Person currentPerson = allPeople.get(position);
                         TextView lblPerson = listItemView.findViewById(R.id.lblPerson);
-                        lblPerson.setText(currentPerson.getDescription());
+                        lblPerson.setText(currentPerson.getName());
                         CheckBox chkMet = listItemView.findViewById(R.id.chkMetList);
                         chkMet.setChecked(currentPerson.isMet());
                         Button update = listItemView.findViewById(R.id.btnUpdatePerson);

@@ -169,7 +169,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
     }
 
     private void save(){
-        if(Integer.parseInt(person.getId()) > 0){
+        if(person.getId() != null){
             da.updatePerson(person, new FirebaseListener() {
                 @Override
                 public void done(Object obj) {
