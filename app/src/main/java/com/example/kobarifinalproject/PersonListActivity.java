@@ -42,6 +42,9 @@ public class PersonListActivity extends AppCompatActivity {
 
         lsPeople = findViewById(R.id.lsPeople);
         da = new PersonDataAccess();
+        getAllPeople();
+        getPersonById();
+        addPerson();
         da.getAllPeople(new FirebaseListener() {
             @Override
             public void done(Object obj) {
@@ -102,6 +105,8 @@ public class PersonListActivity extends AppCompatActivity {
                                             }
                                         });
                                         dialog.dismiss();
+                                        allPeople.remove(selectedPerson);
+                                        notifyDataSetChanged();
                                     }
                                 });
 
@@ -171,4 +176,5 @@ public class PersonListActivity extends AppCompatActivity {
             }
         });
     }
+
 }

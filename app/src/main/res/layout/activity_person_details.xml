@@ -79,10 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-        <!--
-        I read that if you use layout_weight for an element,
-        then you should set it's width to 0dp
-        -->
+
         <EditText
             android:id="@+id/txtFirstMetDate"
             android:layout_width="0dp"
@@ -91,10 +88,7 @@
             android:ems="10"
             android:text=""
             android:layout_weight="6"/>
-        <!--
-        A video on using image assets in Android
-        https://www.youtube.com/watch?v=YaWmNhlOXYk
-        -->
+
         <Button
             android:id="@+id/btnPickDate"
             android:layout_width="0dp"
