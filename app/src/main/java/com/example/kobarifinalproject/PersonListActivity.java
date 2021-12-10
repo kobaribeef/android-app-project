@@ -40,8 +40,8 @@ public class PersonListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_list);
 
-        da = new PersonDataAccess();
         lsPeople = findViewById(R.id.lsPeople);
+        da = new PersonDataAccess();
         da.getAllPeople(new FirebaseListener() {
             @Override
             public void done(Object obj) {

@@ -116,10 +116,11 @@ public class PersonDataAccess {
         try{
             String personName = doc.getString("name");
             String personDesc = doc.getString("description");
+            String personRaceDesc = doc.getString("raceDescription");
+            boolean met = doc.getBoolean("met");
             Timestamp ts = doc.getTimestamp("firstMet");
             Date firstMet = ts.toDate();
-            boolean met = doc.getBoolean("met");
-            Person person = new Person(personId, personName, personDesc, met, firstMet);
+            Person person = new Person(personId, personName, personDesc, personRaceDesc, met, firstMet);
             return person;
         }catch(Exception e){
             Log.d(TAG, "UNABLE TO CONVERT DOCUMENT TO DOG" + e.toString());
@@ -131,8 +132,9 @@ public class PersonDataAccess {
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", person.getName());
         map.put("description", person.getDescription());
-        map.put("firstMet", person.getFirstMet());
+        map.put("raceDescription", person.getRaceDescription());
         map.put("met", person.isMet());
+        map.put("firstMet", person.getFirstMet());
         return map;
     }
 }
