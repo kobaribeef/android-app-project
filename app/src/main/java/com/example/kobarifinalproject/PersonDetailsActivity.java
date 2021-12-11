@@ -94,7 +94,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
         datePickerListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                txtFirstMetDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                txtFirstMetDate.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
             }
         };
 
