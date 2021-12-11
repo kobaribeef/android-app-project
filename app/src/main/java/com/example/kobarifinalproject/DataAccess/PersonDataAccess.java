@@ -106,7 +106,7 @@ public class PersonDataAccess {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "UNABLE TO DELETE DOG" + e.toString());
+                Log.d(TAG, "UNABLE TO DELETE PERSON" + e.toString());
             }
         });
     }
@@ -123,7 +123,7 @@ public class PersonDataAccess {
             Person person = new Person(personId, personName, personDesc, personRaceDesc, met, firstMet);
             return person;
         }catch(Exception e){
-            Log.d(TAG, "UNABLE TO CONVERT DOCUMENT TO DOG" + e.toString());
+            Log.d(TAG, "UNABLE TO CONVERT DOCUMENT TO PERSON" + e.toString());
             return null;
         }
     }

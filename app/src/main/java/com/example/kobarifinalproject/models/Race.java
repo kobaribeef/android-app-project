@@ -1,9 +1,21 @@
 package com.example.kobarifinalproject.models;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Race {
 
     String id;
     String race;
+    ArrayList<Person> people = new ArrayList<>();
+
+    public ArrayList<Person> getPeople(){
+        return people;
+    }
+
+    public void setPeople(ArrayList<Person> people){
+        this.people = people;
+    }
 
     public String getId() {
         return id;

@@ -98,8 +98,8 @@ public class RaceDataAccess {
         });
     }
 
-    public void deleteRace(String raceId, FirebaseListener listener){
-        racesCollection.document(raceId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+    public void deleteRace(Race deletedRace, FirebaseListener listener){
+        racesCollection.document(deletedRace.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 listener.done(null);
@@ -129,5 +129,4 @@ public class RaceDataAccess {
         map.put("race", race.getRace());
         return map;
     }
-
 }

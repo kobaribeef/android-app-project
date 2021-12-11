@@ -18,7 +18,11 @@ import android.widget.TextView;
 
 import com.example.kobarifinalproject.DataAccess.FirebaseListener;
 import com.example.kobarifinalproject.DataAccess.PersonDataAccess;
+import com.example.kobarifinalproject.DataAccess.RaceDataAccess;
 import com.example.kobarifinalproject.models.Person;
+import com.example.kobarifinalproject.models.Race;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,8 +30,11 @@ import java.util.Date;
 public class PersonListActivity extends AppCompatActivity {
 
     public static final String TAG = "PersonListActivity";
+    public static final String EXTRA_RACE_ID = "raceId";
 
-    private PersonDataAccess da;
+    private RaceDataAccess daRace;
+    private PersonDataAccess daPerson;
+    private Race race;
     private Button btnAddPerson;
     private ArrayList<Person> allPeople;
     private ListView lsPeople;
@@ -37,10 +44,25 @@ public class PersonListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_list);
 
+        daRace = new RaceDataAccess();
+
+        Intent i = getIntent();
+        String raceId = i.getStringExtra(EXTRA_RACE_ID);
+        if(raceId != null){
+            daRace.getRaceById(raceId, new FirebaseListener() {
+                @Override
+                public void done(Object obj) {
+                    race = (Race) obj;
+                    Log.d(TAG, race.toString());
+
+                }
+            });
+        }
+
         lsPeople = findViewById(R.id.lsPeople);
-        da = new PersonDataAccess();
+        daPerson = new PersonDataAccess();
         addPerson();
-        da.getAllPeople(new FirebaseListener() {
+        daPerson.getAllPeople(new FirebaseListener() {
             @Override
             public void done(Object obj) {
 
@@ -63,7 +85,7 @@ public class PersonListActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 currentPerson.setMet(chkMet.isChecked());
-                                da.updatePerson(currentPerson, new FirebaseListener() {
+                                daPerson.updatePerson(currentPerson, new FirebaseListener() {
                                     @Override
                                     public void done(Object obj) {
                                         Log.d(TAG, currentPerson.toString());
@@ -93,7 +115,7 @@ public class PersonListActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int i) {
                                         Person selectedPerson = allPeople.get(position);
-                                        da.deletePerson(selectedPerson, new FirebaseListener() {
+                                        daPerson.deletePerson(selectedPerson, new FirebaseListener() {
                                             @Override
                                             public void done(Object obj) {
 
