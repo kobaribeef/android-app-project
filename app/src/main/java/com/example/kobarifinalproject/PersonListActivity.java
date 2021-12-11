@@ -28,9 +28,6 @@ public class PersonListActivity extends AppCompatActivity {
     public static final String TAG = "PersonListActivity";
 
     private PersonDataAccess da;
-    private Button btnGetAllPeople;
-    private EditText txtPersonId;
-    private Button btnGetPersonById;
     private Button btnAddPerson;
     private ArrayList<Person> allPeople;
     private ListView lsPeople;
@@ -42,8 +39,6 @@ public class PersonListActivity extends AppCompatActivity {
 
         lsPeople = findViewById(R.id.lsPeople);
         da = new PersonDataAccess();
-        getAllPeople();
-        getPersonById();
         addPerson();
         da.getAllPeople(new FirebaseListener() {
             @Override
@@ -126,42 +121,6 @@ public class PersonListActivity extends AppCompatActivity {
                 };
 
                 lsPeople.setAdapter(adapter);
-            }
-        });
-    }
-
-    private void getAllPeople(){
-        btnGetAllPeople = findViewById(R.id.btnGetAllPeople);
-        btnGetAllPeople.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                da.getAllPeople(new FirebaseListener() {
-                    @Override
-                    public void done(Object obj) {
-                        ArrayList<Person> people = (ArrayList<Person>) obj;
-                        for( Person p : people){
-                            Log.d(TAG, p.toString());
-                        }
-                    }
-                });
-            }
-        });
-    }
-
-    private void getPersonById(){
-        txtPersonId = findViewById(R.id.txtPersonId);
-        btnGetPersonById = findViewById(R.id.btnGetPersonById);
-        btnGetPersonById.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String personId = txtPersonId.getText().toString();
-                da.getPersonById(personId, new FirebaseListener() {
-                    @Override
-                    public void done(Object obj) {
-                        Person p = (Person) obj;
-                        Log.d(TAG, p.toString());
-                    }
-                });
             }
         });
     }

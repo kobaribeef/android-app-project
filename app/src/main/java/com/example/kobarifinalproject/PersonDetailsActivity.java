@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.kobarifinalproject.DataAccess.FirebaseListener;
 import com.example.kobarifinalproject.DataAccess.PersonDataAccess;
@@ -127,6 +128,8 @@ public class PersonDetailsActivity extends AppCompatActivity {
                 isValid = false;
                 txtFirstMetDate.setError("Please enter the date you both met");
             }
+        }else{
+            txtFirstMetDate.setText("Have not met yet", TextView.BufferType.EDITABLE);
         }
         return isValid;
     }
