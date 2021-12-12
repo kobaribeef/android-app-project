@@ -33,8 +33,12 @@ public class Race {
         this.race = race;
     }
 
-    public Race(String id, String race){
-        this.id = id;
+    public Race(String race){
         this.race = race;
+    }
+
+    public Race(String id, String race){
+        this(race);
+        this.id = id;
     }
 }
