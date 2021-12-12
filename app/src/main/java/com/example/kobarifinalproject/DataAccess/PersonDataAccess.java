@@ -27,7 +27,7 @@ public class PersonDataAccess {
 
     public PersonDataAccess(){
         db = FirebaseFirestore.getInstance();
-        peopleCollection = db.collection("races").document().collection("people");
+        peopleCollection = db.collection("races").document("la6lngy1VID4Lym3mFVY").collection("people");
     }
 
     public void getAllPeople(FirebaseListener listener){

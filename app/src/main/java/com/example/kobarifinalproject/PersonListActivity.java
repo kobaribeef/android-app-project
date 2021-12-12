@@ -32,12 +32,12 @@ public class PersonListActivity extends AppCompatActivity {
     public static final String TAG = "PersonListActivity";
     public static final String EXTRA_PEOPLE_BY_RACE_ID = "raceId";
 
-    private RaceDataAccess daRace;
-    private PersonDataAccess daPerson;
+    private RaceDataAccess daR;
+    private PersonDataAccess daP;
     private Race race;
     private Button btnAddPerson;
+    private Button btnBackToRaceMenu;
     private ArrayList<Person> allPeople;
-    private ArrayList<Person> allPeopleByRace = new ArrayList<>();
     private ListView lsPeople;
 
     @Override
@@ -45,12 +45,12 @@ public class PersonListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_list);
 
-        daRace = new RaceDataAccess();
+        daR = new RaceDataAccess();
 
         Intent i = getIntent();
         String raceId = i.getStringExtra(EXTRA_PEOPLE_BY_RACE_ID);
         if(raceId != null){
-            daRace.getRaceById(raceId, new FirebaseListener() {
+            daR.getRaceById(raceId, new FirebaseListener() {
                 @Override
                 public void done(Object obj) {
                     race = (Race) obj;
@@ -61,9 +61,10 @@ public class PersonListActivity extends AppCompatActivity {
         }
 
         lsPeople = findViewById(R.id.lsPeople);
-        daPerson = new PersonDataAccess();
+        daP = new PersonDataAccess();
         addPerson();
-        daPerson.getAllPeople(new FirebaseListener() {
+        raceMenu();
+        daP.getAllPeople(new FirebaseListener() {
             @Override
             public void done(Object obj) {
 
@@ -86,7 +87,7 @@ public class PersonListActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 currentPerson.setMet(chkMet.isChecked());
-                                daPerson.updatePerson(currentPerson, new FirebaseListener() {
+                                daP.updatePerson(currentPerson, new FirebaseListener() {
                                     @Override
                                     public void done(Object obj) {
                                         Log.d(TAG, currentPerson.toString());
@@ -116,7 +117,7 @@ public class PersonListActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int i) {
                                         Person selectedPerson = allPeople.get(position);
-                                        daPerson.deletePerson(selectedPerson, new FirebaseListener() {
+                                        daP.deletePerson(selectedPerson, new FirebaseListener() {
                                             @Override
                                             public void done(Object obj) {
 
@@ -154,6 +155,17 @@ public class PersonListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(PersonListActivity.this, PersonDetailsActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+
+    private void raceMenu(){
+        btnBackToRaceMenu = findViewById(R.id.btnBackToRaceMenu);
+        btnBackToRaceMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(PersonListActivity.this, RaceListActivity.class);
                 startActivity(i);
             }
         });

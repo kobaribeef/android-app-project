@@ -39,6 +39,9 @@ public class LoginActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.btnLogout);
         btnCheckLoginStatus = findViewById(R.id.btnCheckLoginStatus);
 
+        txtEmail.setText("kobari@gmail.com");
+        txtPassword.setText("123456");
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
