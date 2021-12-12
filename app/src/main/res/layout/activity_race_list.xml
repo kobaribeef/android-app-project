@@ -7,11 +7,26 @@
     tools:context=".RaceListActivity"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnAddRace"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Race" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnAddRace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Add Race" />
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Log Out" />
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/lsRaces"

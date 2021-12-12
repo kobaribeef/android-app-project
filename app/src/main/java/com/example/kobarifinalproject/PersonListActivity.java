@@ -30,13 +30,14 @@ import java.util.Date;
 public class PersonListActivity extends AppCompatActivity {
 
     public static final String TAG = "PersonListActivity";
-    public static final String EXTRA_RACE_ID = "raceId";
+    public static final String EXTRA_PEOPLE_BY_RACE_ID = "raceId";
 
     private RaceDataAccess daRace;
     private PersonDataAccess daPerson;
     private Race race;
     private Button btnAddPerson;
     private ArrayList<Person> allPeople;
+    private ArrayList<Person> allPeopleByRace = new ArrayList<>();
     private ListView lsPeople;
 
     @Override
@@ -47,7 +48,7 @@ public class PersonListActivity extends AppCompatActivity {
         daRace = new RaceDataAccess();
 
         Intent i = getIntent();
-        String raceId = i.getStringExtra(EXTRA_RACE_ID);
+        String raceId = i.getStringExtra(EXTRA_PEOPLE_BY_RACE_ID);
         if(raceId != null){
             daRace.getRaceById(raceId, new FirebaseListener() {
                 @Override
