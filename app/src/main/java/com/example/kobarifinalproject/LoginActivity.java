@@ -46,6 +46,10 @@ public class LoginActivity extends AppCompatActivity {
                 String password = txtPassword.getText().toString();
                 if(!email.isEmpty() && !password.isEmpty()){
                     authenticate(email, password);
+                }if(email.isEmpty()){
+                    txtEmail.setError("Please enter your email");
+                }if(password.isEmpty()){
+                    txtPassword.setError("Please enter your password");
                 }
             }
         });
