@@ -54,10 +54,9 @@ public class RaceListActivity extends AppCompatActivity {
                         Race currentRace = allRaces.get(position);
                         TextView lblRace = listItemView.findViewById(R.id.lblRace);
                         lblRace.setText(currentRace.getRace());
-                        Button people = listItemView.findViewById(R.id.btnSeePeople);
                         Button delete = listItemView.findViewById(R.id.btnDeleteRace);
 
-                        people.setOnClickListener(new View.OnClickListener() {
+                        listItemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 Race selectedRace = allRaces.get(position);
