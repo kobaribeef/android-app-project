@@ -195,6 +195,9 @@ public class PersonDetailsActivity extends AppCompatActivity {
             da.updatePerson(raceId, person, new FirebaseListener() {
                 @Override
                 public void done(Object obj) {
+                    Intent i = new Intent(PersonDetailsActivity.this, GetPeopleByRaceActivity.class);
+                    i.putExtra(GetPeopleByRaceActivity.EXTRA_RACE_ID, raceId);
+                    startActivity(i);
 
                 }
             });
@@ -204,12 +207,12 @@ public class PersonDetailsActivity extends AppCompatActivity {
                 public void done(Object obj) {
                     Person newPerson = (Person)obj;
                     Log.d(TAG, "New Person: " + newPerson.toString());
+                    Intent i = new Intent(PersonDetailsActivity.this, GetPeopleByRaceActivity.class);
+                    i.putExtra(GetPeopleByRaceActivity.EXTRA_RACE_ID, raceId);
+                    startActivity(i);
                 }
             });
         }
-
-        Intent i = new Intent(this, GetPeopleByRaceActivity.class);
-        startActivity(i);
     }
 
     private void showDeletedDialog(String raceId){
