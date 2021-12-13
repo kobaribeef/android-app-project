@@ -7,13 +7,11 @@ public class Race {
 
     String id;
     String race;
-    ArrayList<Person> people = new ArrayList<>();
+    ArrayList<Person> people = new ArrayList();
 
-    public ArrayList<Person> getPeople(){
-        return people;
-    }
+    public ArrayList<Person> getPeople() { return people; }
 
-    public void setPeople(ArrayList<Person> people){
+    public void setPeople(ArrayList<Person> people) {
         this.people = people;
     }
 

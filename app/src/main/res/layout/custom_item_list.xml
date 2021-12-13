@@ -22,15 +22,6 @@
             android:text="Met" />
 
         <Button
-            android:id="@+id/btnUpdatePerson"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:minHeight="0dp"
-            android:minWidth="0dp"
-            android:text="Update" />
-
-        <Button
             android:id="@+id/btnDeletePerson"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

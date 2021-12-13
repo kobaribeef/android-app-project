@@ -13,13 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KobariFinalProject">
         <activity
+            android:name=".GetPeopleByRaceActivity"
+            android:exported="true" />
+        <activity
             android:name=".LoginActivity"
-            android:exported="true" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".RaceDetailsActivity"
@@ -32,10 +35,10 @@
             android:exported="true" />
         <activity
             android:name=".RaceListActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

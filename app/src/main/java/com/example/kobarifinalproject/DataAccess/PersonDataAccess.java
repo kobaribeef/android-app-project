@@ -12,7 +12,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firestore.v1.DocumentTransform;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,15 +25,15 @@ public class PersonDataAccess {
 
     public static final String TAG = "PersonDataAccess";
     private static FirebaseFirestore db;
-    CollectionReference peopleCollection;
+    CollectionReference racesCollection;
 
     public PersonDataAccess(){
         db = FirebaseFirestore.getInstance();
-        peopleCollection = db.collection("races").document("la6lngy1VID4Lym3mFVY").collection("people");
+        racesCollection = db.collection("races");
     }
 
-    public void getAllPeople(FirebaseListener listener){
-        peopleCollection.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+    public void getAllPeople(String raceId, FirebaseListener listener){
+        racesCollection.document(raceId).collection("people").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
@@ -48,13 +50,12 @@ public class PersonDataAccess {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.d(TAG, "Unable to get all people" + e.toString());
-
             }
         });
     }
 
-    public void getPersonById(String personId, FirebaseListener listener){
-        peopleCollection.document(personId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+    public void getPersonById(String raceId, String personId, FirebaseListener listener){
+        racesCollection.document(raceId).collection("people").document(personId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot p) {
                 Person person = convertDocumentToPerson(p);
@@ -68,8 +69,8 @@ public class PersonDataAccess {
         });
     }
 
-    public void addPerson(Person newPerson, FirebaseListener listener){
-        peopleCollection.add(convertPersonToMap(newPerson)).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+    public void addPerson(String raceId, Person newPerson, FirebaseListener listener){
+        racesCollection.document(raceId).collection("people").add(convertPersonToMap(newPerson)).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 newPerson.setId(documentReference.getId());
@@ -83,8 +84,8 @@ public class PersonDataAccess {
         });
     }
 
-    public void updatePerson(Person updatedPerson, FirebaseListener listener){
-        peopleCollection.document(updatedPerson.getId()).set(convertPersonToMap(updatedPerson)).addOnSuccessListener(new OnSuccessListener<Void>() {
+    public void updatePerson(String raceId, Person updatedPerson, FirebaseListener listener){
+        racesCollection.document(raceId).collection("people").document(updatedPerson.getId()).set(convertPersonToMap(updatedPerson)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 listener.done(updatedPerson);
@@ -97,8 +98,8 @@ public class PersonDataAccess {
         });
     }
 
-    public void deletePerson(Person deletedPerson, FirebaseListener listener){
-        peopleCollection.document(deletedPerson.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+    public void deletePerson(String raceId, Person deletedPerson, FirebaseListener listener){
+        racesCollection.document(raceId).collection("people").document(deletedPerson.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 listener.done(null);

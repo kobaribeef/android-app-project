@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.example.kobarifinalproject.DataAccess.FirebaseListener;
 import com.example.kobarifinalproject.DataAccess.PersonDataAccess;
 import com.example.kobarifinalproject.models.Person;
+import com.google.firebase.Timestamp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,6 +29,7 @@ import java.util.Date;
 public class PersonDetailsActivity extends AppCompatActivity {
 
     public static final String TAG = "PersonDetailsActivity";
+    public static final String EXTRA_RACE_ID = "raceId";
     public static final String EXTRA_PERSON_ID = "personId";
 
     private PersonDataAccess da;
@@ -60,9 +62,10 @@ public class PersonDetailsActivity extends AppCompatActivity {
         da = new PersonDataAccess();
 
         Intent i = getIntent();
+        String raceId = i.getStringExtra(EXTRA_RACE_ID);
         String personId = i.getStringExtra(EXTRA_PERSON_ID);
         if(personId != null){
-            da.getPersonById(personId, new FirebaseListener() {
+            da.getPersonById(raceId, personId, new FirebaseListener() {
                 @Override
                 public void done(Object obj) {
                     person = (Person) obj;
@@ -128,9 +131,8 @@ public class PersonDetailsActivity extends AppCompatActivity {
                 isValid = false;
                 txtFirstMetDate.setError("Please enter the date you both met");
             }
-        }else{
-            txtFirstMetDate.setText("Have not met yet", TextView.BufferType.EDITABLE);
         }
+
         return isValid;
     }
 
@@ -158,6 +160,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
         if(person != null){
             person.setName(name);
             person.setDescription(description);
@@ -173,14 +176,14 @@ public class PersonDetailsActivity extends AppCompatActivity {
 
     private void save(){
         if(person.getId() != null){
-            da.updatePerson(person, new FirebaseListener() {
+            da.updatePerson(raceId, person, new FirebaseListener() {
                 @Override
                 public void done(Object obj) {
 
                 }
             });
         }else{
-            da.addPerson(person, new FirebaseListener() {
+            da.addPerson(raceId, person, new FirebaseListener() {
                 @Override
                 public void done(Object obj) {
                     Person newPerson = (Person)obj;
@@ -200,7 +203,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
-                da.deletePerson(person, new FirebaseListener() {
+                da.deletePerson(raceId, person, new FirebaseListener() {
                     @Override
                     public void done(Object obj) {
                         Log.d(TAG, "Person deleted");
@@ -223,12 +226,18 @@ public class PersonDetailsActivity extends AppCompatActivity {
     }
 
     private void showDatePicker(){
-        final Calendar c = Calendar.getInstance();
-        int mYear = c.get(Calendar.YEAR);
-        int mMonth = c.get(Calendar.MONTH);
-        int mDate = c.get(Calendar.DAY_OF_MONTH);
+        Date today = new Date();
+        int year = 1900 + today.getYear();
+        int month = today.getMonth();
+        int day = today.getDate();
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, datePickerListener, mYear, mMonth, mDate);
-        datePickerDialog.show();
+        DatePickerDialog dp = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+                String selectedDate = (m + 1) + "/" + d + "/" + y;
+                txtFirstMetDate.setText(selectedDate);
+            }
+        }, year, month, day);
+        dp.show();
     }
 }

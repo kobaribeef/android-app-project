@@ -41,6 +41,8 @@ public class RaceListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_race_list);
 
+        setTitle("Race List");
+
         auth = FirebaseAuth.getInstance();
         lsRaces = findViewById(R.id.lsRaces);
         da = new RaceDataAccess();
@@ -95,8 +97,8 @@ public class RaceListActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Race selectedRace = allRaces.get(position);
-                        Intent i = new Intent(RaceListActivity.this, PersonListActivity.class);
-                        i.putExtra(PersonListActivity.EXTRA_PEOPLE_BY_RACE_ID, selectedRace.getId());
+                        Intent i = new Intent(RaceListActivity.this, GetPeopleByRaceActivity.class);
+                        i.putExtra(GetPeopleByRaceActivity.EXTRA_RACE_ID, selectedRace.getId());
                         startActivity(i);
                     }
                 });

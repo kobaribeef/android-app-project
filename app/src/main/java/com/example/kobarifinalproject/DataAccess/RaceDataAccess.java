@@ -59,6 +59,7 @@ public class RaceDataAccess {
             @Override
             public void onSuccess(DocumentSnapshot r) {
                 Race race = convertDocumentToRace(r);
+
                 listener.done(race);
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -112,6 +113,31 @@ public class RaceDataAccess {
         });
     }
 
+    public void getPeople(String raceId, FirebaseListener listener){
+        racesCollection.document(raceId).collection("people").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if (queryDocumentSnapshots.size() > 0){
+                    List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
+                    List<Person> personObjects = new ArrayList();
+
+                    for(DocumentSnapshot p : docs){
+                        Person person = convertDocumentToPerson(p);
+                        personObjects.add(person);
+                    }
+                    listener.done(personObjects);
+                }else {
+                    Log.d(TAG, "Has NO people");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Unable to get all people" + e.toString());
+            }
+        });
+    }
+
     private Race convertDocumentToRace(DocumentSnapshot doc){
         String raceId = doc.getId();
         try{
@@ -127,6 +153,33 @@ public class RaceDataAccess {
     private HashMap<String, Object> convertRaceToMap(Race race){
         HashMap<String, Object> map = new HashMap<>();
         map.put("race", race.getRace());
+        return map;
+    }
+
+    private Person convertDocumentToPerson(DocumentSnapshot doc){
+        String personId = doc.getId();
+        try{
+            String personName = doc.getString("name");
+            String personDesc = doc.getString("description");
+            String personRaceDesc = doc.getString("raceDescription");
+            boolean met = doc.getBoolean("met");
+            Timestamp ts = doc.getTimestamp("firstMet");
+            Date firstMet = ts.toDate();
+            Person person = new Person(personId, personName, personDesc, personRaceDesc, met, firstMet);
+            return person;
+        }catch(Exception e){
+            Log.d(TAG, "UNABLE TO CONVERT DOCUMENT TO PERSON" + e.toString());
+            return null;
+        }
+    }
+
+    private HashMap<String, Object> convertPersonToMap(Person person){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name", person.getName());
+        map.put("description", person.getDescription());
+        map.put("raceDescription", person.getRaceDescription());
+        map.put("met", person.isMet());
+        map.put("firstMet", person.getFirstMet());
         return map;
     }
 }
