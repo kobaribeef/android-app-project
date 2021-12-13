@@ -27,7 +27,6 @@ public class GetPeopleByRaceActivity extends AppCompatActivity {
 
     public static final String TAG = "GetPeopleByRaceActivity";
     public static final String EXTRA_RACE_ID = "raceId";
-    public static final String EXTRA_PERSON_ID = "personId";
 
     private RaceDataAccess da;
     private PersonDataAccess dap;
@@ -60,8 +59,10 @@ public class GetPeopleByRaceActivity extends AppCompatActivity {
         }
 
         lsPeopleByRace = findViewById(R.id.lsPeopleByRace);
+        raceMenu();
+        addPerson();
 
-        da.getPeople(raceId, new FirebaseListener() {
+        dap.getAllPeople(raceId, new FirebaseListener() {
             @Override
             public void done(Object obj) {
 
@@ -100,7 +101,7 @@ public class GetPeopleByRaceActivity extends AppCompatActivity {
                                 String raceId = i.getStringExtra(EXTRA_RACE_ID);
                                 Person selectedPerson = allPeople.get(position);
                                 Intent i = new Intent(GetPeopleByRaceActivity.this, PersonDetailsActivity.class);
-                                i.putExtra(PersonDetailsActivity.EXTRA_RACE_ID, raceId);
+                                i.putExtra(PersonDetailsActivity.EXTRA_RACE_ID_PDA, raceId);
                                 i.putExtra(PersonDetailsActivity.EXTRA_PERSON_ID, selectedPerson.getId());
                                 startActivity(i);
                             }
@@ -154,7 +155,9 @@ public class GetPeopleByRaceActivity extends AppCompatActivity {
         btnAddPerson.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String raceId = race.getId();
                 Intent i = new Intent(GetPeopleByRaceActivity.this, PersonDetailsActivity.class);
+                i.putExtra(PersonDetailsActivity.EXTRA_RACE_ID_PDA, raceId);
                 startActivity(i);
             }
         });

@@ -18,7 +18,9 @@ import android.widget.TextView;
 
 import com.example.kobarifinalproject.DataAccess.FirebaseListener;
 import com.example.kobarifinalproject.DataAccess.PersonDataAccess;
+import com.example.kobarifinalproject.DataAccess.RaceDataAccess;
 import com.example.kobarifinalproject.models.Person;
+import com.example.kobarifinalproject.models.Race;
 import com.google.firebase.Timestamp;
 
 import java.text.ParseException;
@@ -29,10 +31,12 @@ import java.util.Date;
 public class PersonDetailsActivity extends AppCompatActivity {
 
     public static final String TAG = "PersonDetailsActivity";
-    public static final String EXTRA_RACE_ID = "raceId";
+    public static final String EXTRA_RACE_ID_PDA = "raceId";
     public static final String EXTRA_PERSON_ID = "personId";
 
     private PersonDataAccess da;
+    private RaceDataAccess dar;
+    private Race race;
     private Person person;
     private EditText txtName;
     private EditText txtDescription;
@@ -60,9 +64,21 @@ public class PersonDetailsActivity extends AppCompatActivity {
         btnPickDate = findViewById(R.id.btnPickDate);
 
         da = new PersonDataAccess();
+        dar = new RaceDataAccess();
 
         Intent i = getIntent();
-        String raceId = i.getStringExtra(EXTRA_RACE_ID);
+
+        String raceId = i.getStringExtra(EXTRA_RACE_ID_PDA);
+        if(raceId != null){
+            dar.getRaceById(raceId, new FirebaseListener() {
+                @Override
+                public void done(Object obj) {
+                    race = (Race) obj;
+                    Log.d(TAG, race.toString());
+                }
+            });
+        }
+
         String personId = i.getStringExtra(EXTRA_PERSON_ID);
         if(personId != null){
             da.getPersonById(raceId, personId, new FirebaseListener() {
@@ -82,7 +98,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(validate()){
                     getDataFromUI();
-                    save();
+                    save(raceId);
                 }
             }
         });
@@ -90,7 +106,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
         btnDeletePersonPDA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDeletedDialog();
+                showDeletedDialog(raceId);
             }
         });
 
@@ -174,7 +190,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void save(){
+    private void save(String raceId){
         if(person.getId() != null){
             da.updatePerson(raceId, person, new FirebaseListener() {
                 @Override
@@ -192,11 +208,11 @@ public class PersonDetailsActivity extends AppCompatActivity {
             });
         }
 
-        Intent i = new Intent(this, PersonListActivity.class);
+        Intent i = new Intent(this, GetPeopleByRaceActivity.class);
         startActivity(i);
     }
 
-    private void showDeletedDialog(){
+    private void showDeletedDialog(String raceId){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Delete Person");
         alert.setMessage("Are you sure you want to delete this person");
