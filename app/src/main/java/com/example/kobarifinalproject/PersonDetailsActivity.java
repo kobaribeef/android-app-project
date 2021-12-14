@@ -22,6 +22,7 @@ import com.example.kobarifinalproject.DataAccess.RaceDataAccess;
 import com.example.kobarifinalproject.models.Person;
 import com.example.kobarifinalproject.models.Race;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,6 +55,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_details);
+
         txtName = findViewById(R.id.txtName);
         txtDescription = findViewById(R.id.txtDescription);
         txtRaceDescription = findViewById(R.id.txtRaceDescription);
@@ -74,6 +76,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
                 @Override
                 public void done(Object obj) {
                     race = (Race) obj;
+                    setTitle(race.getRace());
                     Log.d(TAG, race.toString());
                 }
             });
@@ -86,7 +89,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
                 public void done(Object obj) {
                     person = (Person) obj;
                     Log.d(TAG, person.toString());
-                    putDataIntoUI();
+                    putDataIntoUI(person);
                 }
             });
         }else{
@@ -152,13 +155,14 @@ public class PersonDetailsActivity extends AppCompatActivity {
         return isValid;
     }
 
-    private void putDataIntoUI(){
-        if(person != null){
+    private void putDataIntoUI(Person person) {
+        if (person != null) {
             txtName.setText(person.getName());
             txtDescription.setText(person.getDescription());
             txtRaceDescription.setText(person.getRaceDescription());
             chkMet.setChecked(person.isMet());
-            txtFirstMetDate.setText(person.getFirstMet().toString());
+            String formattedDate = sdf.format(person.getFirstMet());
+            txtFirstMetDate.setText(formattedDate);
         }
     }
 
@@ -198,7 +202,6 @@ public class PersonDetailsActivity extends AppCompatActivity {
                     Intent i = new Intent(PersonDetailsActivity.this, GetPeopleByRaceActivity.class);
                     i.putExtra(GetPeopleByRaceActivity.EXTRA_RACE_ID, raceId);
                     startActivity(i);
-
                 }
             });
         }else{
