@@ -232,7 +232,8 @@ public class PersonDetailsActivity extends AppCompatActivity {
                     }
                 });
                 dialog.dismiss();
-                Intent intent = new Intent(PersonDetailsActivity.this, PersonListActivity.class);
+                Intent intent = new Intent(PersonDetailsActivity.this, GetPeopleByRaceActivity.class);
+                intent.putExtra(GetPeopleByRaceActivity.EXTRA_RACE_ID, raceId);
                 startActivity(intent);
             }
         });
