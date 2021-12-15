@@ -31,9 +31,6 @@
             android:name=".PersonDetailsActivity"
             android:exported="true" />
         <activity
-            android:name=".PersonListActivity"
-            android:exported="true" />
-        <activity
             android:name=".RaceListActivity"
             android:exported="true" />
         <activity

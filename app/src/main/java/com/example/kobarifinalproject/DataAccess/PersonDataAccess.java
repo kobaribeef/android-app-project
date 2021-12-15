@@ -27,11 +27,13 @@ public class PersonDataAccess {
     private static FirebaseFirestore db;
     CollectionReference racesCollection;
 
+    //Links PersonDataAccess class to race collection
     public PersonDataAccess(){
         db = FirebaseFirestore.getInstance();
         racesCollection = db.collection("races");
     }
 
+    //method for getting docs in people sub collection from race collection
     public void getAllPeople(String raceId, FirebaseListener listener){
         racesCollection.document(raceId).collection("people").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -54,6 +56,7 @@ public class PersonDataAccess {
         });
     }
 
+    //method for getting a person by their Id
     public void getPersonById(String raceId, String personId, FirebaseListener listener){
         racesCollection.document(raceId).collection("people").document(personId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -69,6 +72,7 @@ public class PersonDataAccess {
         });
     }
 
+    //method for creating a new person
     public void addPerson(String raceId, Person newPerson, FirebaseListener listener){
         racesCollection.document(raceId).collection("people").add(convertPersonToMap(newPerson)).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
@@ -84,6 +88,7 @@ public class PersonDataAccess {
         });
     }
 
+    //method for updating a person
     public void updatePerson(String raceId, Person updatedPerson, FirebaseListener listener){
         racesCollection.document(raceId).collection("people").document(updatedPerson.getId()).set(convertPersonToMap(updatedPerson)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -98,6 +103,7 @@ public class PersonDataAccess {
         });
     }
 
+    //method for deleting a person
     public void deletePerson(String raceId, Person deletedPerson, FirebaseListener listener){
         racesCollection.document(raceId).collection("people").document(deletedPerson.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -112,6 +118,7 @@ public class PersonDataAccess {
         });
     }
 
+    //method for converting a document from database to a person object
     private Person convertDocumentToPerson(DocumentSnapshot doc){
         String personId = doc.getId();
         try{
@@ -129,6 +136,7 @@ public class PersonDataAccess {
         }
     }
 
+    //method to store person variables to matching fields in database
     private HashMap<String, Object> convertPersonToMap(Person person){
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", person.getName());

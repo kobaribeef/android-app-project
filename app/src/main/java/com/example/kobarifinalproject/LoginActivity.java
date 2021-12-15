@@ -19,11 +19,11 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginActivity extends AppCompatActivity {
 
     public static final String TAG = "LoginActivity";
+
     EditText txtEmail;
     EditText txtPassword;
     Button btnLogin;
     Button btnLogout;
-    Button btnCheckLoginStatus;
 
     FirebaseAuth auth;
 
@@ -39,11 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         txtPassword = findViewById(R.id.txtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         btnLogout = findViewById(R.id.btnLogout);
-        btnCheckLoginStatus = findViewById(R.id.btnCheckLoginStatus);
 
-        txtEmail.setText("kobari@gmail.com");
-        txtPassword.setText("123456");
-
+        //login access app
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,22 +55,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
-        btnCheckLoginStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(auth.getCurrentUser() != null){
-                    String email = auth.getCurrentUser().getEmail();
-                    Toast.makeText(LoginActivity.this, "LOGGED IN AS: " + email, Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "LOGGED IN AS: " + email);
-                }else{
-                    Toast.makeText(LoginActivity.this, "NOT LOGGED IN", Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "NOT LOGGED IN");
-                }
-            }
-        });
     }
 
+    //method to go to RaceListActivity if email and password is authenticated
     private void authenticate(String email, String password) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -83,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent i = new Intent(LoginActivity.this, RaceListActivity.class);
                     startActivity(i);
                 } else {
+                    Toast.makeText(LoginActivity.this, "Wrong credentials", Toast.LENGTH_LONG).show();
                     Log.d(TAG, "Failed to login");
                 }
             }

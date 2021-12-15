@@ -40,24 +40,34 @@ public class RaceListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_race_list);
+        lsRaces = findViewById(R.id.lsRaces);
 
         setTitle("Race List");
 
         auth = FirebaseAuth.getInstance();
-        lsRaces = findViewById(R.id.lsRaces);
+
+        //linking to Firebase for race collection
         da = new RaceDataAccess();
+
+        //method to go to RaceDetailsActivity
         addRace();
+        //method to go to LoginActivity
         logOut();
+
+        //get all races
         da.getAllRace(new FirebaseListener() {
             @Override
             public void done(Object obj) {
 
                 allRaces = (ArrayList<Race>) obj;
+
+                //custom array adapter
                 setupList();
             }
         });
     }
 
+    //method to go to RaceDetailsActivity
     private void addRace(){
         btnAddRace = findViewById(R.id.btnAddRace);
         btnAddRace.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +79,7 @@ public class RaceListActivity extends AppCompatActivity {
         });
     }
 
+    //method to go to LoginActivity
     private void logOut(){
         btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +93,7 @@ public class RaceListActivity extends AppCompatActivity {
         });
     }
 
+    //custom array adapter
     private void setupList(){
         ArrayAdapter<Race> adapter = new ArrayAdapter<Race>(RaceListActivity.this, R.layout.custom_item_list_2, R.id.lblRace, allRaces){
             @Override
@@ -93,6 +105,7 @@ public class RaceListActivity extends AppCompatActivity {
                 lblRace.setText(currentRace.getRace());
                 Button delete = listItemView.findViewById(R.id.btnDeleteRace);
 
+                //starts GetPeopleByRaceActivity and adds extended data (a race Id)
                 listItemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -103,6 +116,7 @@ public class RaceListActivity extends AppCompatActivity {
                     }
                 });
 
+                //shows alert dialog to delete a race.
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -121,6 +135,8 @@ public class RaceListActivity extends AppCompatActivity {
                                 });
                                 dialog.dismiss();
                                 allRaces.remove(selectedRace);
+
+                                //Notifies that data has been changed and refreshes View
                                 notifyDataSetChanged();
                             }
                         });

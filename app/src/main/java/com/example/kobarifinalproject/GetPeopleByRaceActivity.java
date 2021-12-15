@@ -43,9 +43,11 @@ public class GetPeopleByRaceActivity extends AppCompatActivity {
 
         setTitle("People");
 
+        //linking to Firebase for collections
         da = new RaceDataAccess();
         dap = new PersonDataAccess();
 
+        //retrieving a race Id from RaceListActivity
         Intent i = getIntent();
         String raceId = i.getStringExtra(EXTRA_RACE_ID);
         if(raceId != null){
@@ -59,15 +61,20 @@ public class GetPeopleByRaceActivity extends AppCompatActivity {
         }
 
         lsPeopleByRace = findViewById(R.id.lsPeopleByRace);
+
+        //method for going back to RaceListActivity
         raceMenu();
+        //method for going to PersonDetailsActivity
         addPerson();
 
+        //get all people from a certain race
         dap.getAllPeople(raceId, new FirebaseListener() {
             @Override
             public void done(Object obj) {
 
                 allPeople = (ArrayList<Person>) obj;
 
+                //custom array adapter
                 ArrayAdapter<Person> adapter = new ArrayAdapter<Person>(GetPeopleByRaceActivity.this, R.layout.custom_item_list, R.id.lblPerson, allPeople){
                     @Override
                     public View getView(int position, View convertView, ViewGroup parentListView){
@@ -81,6 +88,7 @@ public class GetPeopleByRaceActivity extends AppCompatActivity {
                         chkMet.setChecked(currentPerson.isMet());
                         Button delete = listItemView.findViewById(R.id.btnDeletePerson);
 
+                        //updating a person if they have been met or not
                         chkMet.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -95,6 +103,7 @@ public class GetPeopleByRaceActivity extends AppCompatActivity {
                             }
                         });
 
+                        //starts PersonDetailsActivity and adds extended data (race Id and person Id)
                         listItemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -107,6 +116,7 @@ public class GetPeopleByRaceActivity extends AppCompatActivity {
                             }
                         });
 
+                        //creates alert dialog to delete a person.
                         delete.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -126,6 +136,8 @@ public class GetPeopleByRaceActivity extends AppCompatActivity {
                                         });
                                         dialog.dismiss();
                                         allPeople.remove(selectedPerson);
+
+                                        //Notifies that data has been changed and refreshes View
                                         notifyDataSetChanged();
                                     }
                                 });
@@ -150,6 +162,7 @@ public class GetPeopleByRaceActivity extends AppCompatActivity {
         });
     }
 
+    //method to go PersonDetailsActivity
     private void addPerson(){
         btnAddPerson = findViewById(R.id.btnAddPerson);
         btnAddPerson.setOnClickListener(new View.OnClickListener() {
@@ -163,6 +176,7 @@ public class GetPeopleByRaceActivity extends AppCompatActivity {
         });
     }
 
+    //method to go RaceListActivity
     private void raceMenu(){
         btnBackToRaceMenu = findViewById(R.id.btnBackToRaceMenu);
         btnBackToRaceMenu.setOnClickListener(new View.OnClickListener() {

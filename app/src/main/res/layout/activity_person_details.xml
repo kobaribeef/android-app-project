@@ -67,7 +67,7 @@
         android:id="@+id/chkMet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Have we met" />
+        android:text="Have we met IRL" />
 
     <TextView
         android:id="@+id/textView2"

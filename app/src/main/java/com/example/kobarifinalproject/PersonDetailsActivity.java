@@ -48,6 +48,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
     private Button btnDeletePersonPDA;
     private Button btnPickDate;
     DatePickerDialog.OnDateSetListener datePickerListener;
+    //formatting for date
     SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
 
 
@@ -65,11 +66,12 @@ public class PersonDetailsActivity extends AppCompatActivity {
         btnDeletePersonPDA = findViewById(R.id.btnDeletePersonPDA);
         btnPickDate = findViewById(R.id.btnPickDate);
 
+        //linking to Firebase for collections
         da = new PersonDataAccess();
         dar = new RaceDataAccess();
 
+        //retrieving a race Id from GetPeopleByRaceActivity
         Intent i = getIntent();
-
         String raceId = i.getStringExtra(EXTRA_RACE_ID_PDA);
         if(raceId != null){
             dar.getRaceById(raceId, new FirebaseListener() {
@@ -82,6 +84,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
             });
         }
 
+        //retrieving a person Id from GetPeopleByRaceActivity
         String personId = i.getStringExtra(EXTRA_PERSON_ID);
         if(personId != null){
             da.getPersonById(raceId, personId, new FirebaseListener() {
@@ -93,6 +96,8 @@ public class PersonDetailsActivity extends AppCompatActivity {
                 }
             });
         }else{
+
+            //delete button is invisible if person is null
             btnDeletePersonPDA.setVisibility(View.GONE);
         }
 
@@ -106,6 +111,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
             }
         });
 
+        //shows alert dialog to delete a person.
         btnDeletePersonPDA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +119,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
             }
         });
 
+        //gets date from DatePicker and sets it to an EditText
         datePickerListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
@@ -120,6 +127,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
             }
         };
 
+        //shows DatePicker to pick a date
         btnPickDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,6 +136,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
         });
     }
 
+    //method for validation
     private boolean validate(){
         boolean isValid = true;
 
@@ -151,10 +160,15 @@ public class PersonDetailsActivity extends AppCompatActivity {
                 txtFirstMetDate.setError("Please enter the date you both met");
             }
         }
+        if(txtFirstMetDate.getText().toString().isEmpty()){
+            isValid = false;
+            txtFirstMetDate.setError("Please enter the day you met them");
+        }
 
         return isValid;
     }
 
+    //method to put data into app from database
     private void putDataIntoUI(Person person) {
         if (person != null) {
             txtName.setText(person.getName());
@@ -166,6 +180,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
         }
     }
 
+    //method to retrieve data from app
     private void getDataFromUI(){
         String name = txtName.getText().toString();
         String description = txtDescription.getText().toString();
@@ -194,6 +209,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
         }
     }
 
+    //method add or update a person and start GetPeopleByRaceActivity
     private void save(String raceId){
         if(person.getId() != null){
             da.updatePerson(raceId, person, new FirebaseListener() {
@@ -218,6 +234,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
         }
     }
 
+    //method shows alert dialog to delete a race and starts GetPeopleByRaceActivity
     private void showDeletedDialog(String raceId){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Delete Person");
@@ -248,6 +265,7 @@ public class PersonDetailsActivity extends AppCompatActivity {
         alert.show();
     }
 
+    //method shows DatePicker for user to enter a date
     private void showDatePicker(){
         Date today = new Date();
         int year = 1900 + today.getYear();

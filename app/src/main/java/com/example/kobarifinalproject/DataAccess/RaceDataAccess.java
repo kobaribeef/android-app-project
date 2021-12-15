@@ -26,11 +26,13 @@ public class RaceDataAccess {
     private static FirebaseFirestore db;
     CollectionReference racesCollection;
 
+    //Links RaceDataAccess class to race collection
     public RaceDataAccess(){
         db = FirebaseFirestore.getInstance();
         racesCollection = db.collection("races");
     }
 
+    //method for getting docs in race collection
     public void getAllRace(FirebaseListener listener){
         racesCollection.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -54,6 +56,7 @@ public class RaceDataAccess {
         });
     }
 
+    //method for getting a race by their Id
     public void getRaceById(String raceId, FirebaseListener listener){
         racesCollection.document(raceId).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -70,6 +73,7 @@ public class RaceDataAccess {
         });
     }
 
+    //method for creating a new race
     public void addRace(Race newRace, FirebaseListener listener){
         racesCollection.add(convertRaceToMap(newRace)).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
@@ -85,20 +89,7 @@ public class RaceDataAccess {
         });
     }
 
-    public void updateRace(Race updatedRace, FirebaseListener listener){
-        racesCollection.document(updatedRace.getId()).set(convertRaceToMap(updatedRace)).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                listener.done(updatedRace);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "UNABLE TO UPDATE Race" + e.toString());
-            }
-        });
-    }
-
+    //method for deleting a race
     public void deleteRace(Race deletedRace, FirebaseListener listener){
         racesCollection.document(deletedRace.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -113,31 +104,8 @@ public class RaceDataAccess {
         });
     }
 
-    public void getPeople(String raceId, FirebaseListener listener){
-        racesCollection.document(raceId).collection("people").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if (queryDocumentSnapshots.size() > 0){
-                    List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
-                    List<Person> personObjects = new ArrayList();
 
-                    for(DocumentSnapshot p : docs){
-                        Person person = convertDocumentToPerson(p);
-                        personObjects.add(person);
-                    }
-                    listener.done(personObjects);
-                }else {
-                    Log.d(TAG, "Has NO people");
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d(TAG, "Unable to get all people" + e.toString());
-            }
-        });
-    }
-
+    //method for converting a document to a race object
     private Race convertDocumentToRace(DocumentSnapshot doc){
         String raceId = doc.getId();
         try{
@@ -150,36 +118,10 @@ public class RaceDataAccess {
         }
     }
 
+    //method to store race variables to matching fields in database
     private HashMap<String, Object> convertRaceToMap(Race race){
         HashMap<String, Object> map = new HashMap<>();
         map.put("race", race.getRace());
-        return map;
-    }
-
-    private Person convertDocumentToPerson(DocumentSnapshot doc){
-        String personId = doc.getId();
-        try{
-            String personName = doc.getString("name");
-            String personDesc = doc.getString("description");
-            String personRaceDesc = doc.getString("raceDescription");
-            boolean met = doc.getBoolean("met");
-            Timestamp ts = doc.getTimestamp("firstMet");
-            Date firstMet = ts.toDate();
-            Person person = new Person(personId, personName, personDesc, personRaceDesc, met, firstMet);
-            return person;
-        }catch(Exception e){
-            Log.d(TAG, "UNABLE TO CONVERT DOCUMENT TO PERSON" + e.toString());
-            return null;
-        }
-    }
-
-    private HashMap<String, Object> convertPersonToMap(Person person){
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("name", person.getName());
-        map.put("description", person.getDescription());
-        map.put("raceDescription", person.getRaceDescription());
-        map.put("met", person.isMet());
-        map.put("firstMet", person.getFirstMet());
         return map;
     }
 }

@@ -32,8 +32,10 @@ public class RaceDetailsActivity extends AppCompatActivity {
         txtRaceName = findViewById(R.id.txtRace);
         btnSaveRace = findViewById(R.id.btnSaveRace);
 
+        //linking to Firebase for race collection
         da = new RaceDataAccess();
 
+        //retrieving a race Id from RaceListActivity
         Intent i = getIntent();
         String raceId = i.getStringExtra(EXTRA_RACE_ID);
         if(raceId != null){
@@ -58,6 +60,7 @@ public class RaceDetailsActivity extends AppCompatActivity {
         });
     }
 
+    //method for validation
     private boolean validate() {
         boolean isValid = true;
 
@@ -69,18 +72,22 @@ public class RaceDetailsActivity extends AppCompatActivity {
         return isValid;
     }
 
+    //method to put data into app from database
     private void putDataIntoUI(){
         if(race != null){
             txtRaceName.setText(race.getRace());
         }
     }
 
+    //method to retrieve data from app
     private void getDataFromUI(){
         String raceName = txtRaceName.getText().toString();
 
         race = new Race(raceName);
         Log.d(TAG, "ADDING NEW RACE");
     }
+
+    //method add a race and go to RaceListActivity
     private void save(){
         da.addRace(race, new FirebaseListener() {
             @Override
